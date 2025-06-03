@@ -1,0 +1,38 @@
+<?php
+
+namespace App\DataTables;
+
+use App\Eterna\DataTable\BaseDataTable;
+use App\Eterna\DataTable\Column;
+use App\Eterna\DataTable\DataTable;
+use App\Eterna\DataTable\Filter;
+use Spatie\QueryBuilder\AllowedFilter;
+
+class {{ class }}DataTable extends BaseDataTable
+{
+    public function getOptions(): DataTable
+    {
+        return DataTable::make('{{ class }}')
+            ->addColumns([
+                Column::make('id', 'id')->hidden(),
+
+                // columns
+
+                Column::make('created_at', 'Oluşturulma Tarihi')->hidden(),
+                Column::make('updated_at', 'Güncellenme Tarihi')->hidden(),
+                Column::make('actions', 'İşlemler')->sortable(false)->searchable(false),
+            ])
+            ->addFilters([
+                Filter::make('id', 'id'),
+
+                // filters
+
+                Filter::make('created_at', 'Oluşturulma Tarihi Aralığı')->type('daterange')->scope('created_at_date_range'),
+                Filter::make('updated_at', 'Güncellenme Tarihi Aralığı')->type('daterange')->scope('updated_at_date_range'),
+            ])
+            ->addCustomFilters([
+                AllowedFilter::scope('created_at_date_range'),
+                AllowedFilter::scope('updated_at_date_range'),
+            ]);
+    }
+}

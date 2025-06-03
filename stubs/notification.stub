@@ -1,0 +1,25 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Enums\NotificationChannel;
+use App\Notifications\BaseNotification;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class {{ class }} extends BaseNotification implements ShouldQueue
+{
+    use Queueable;
+
+    // Özel olarak ekleyeceğiniz bir attribute varsa constructor içerisine ekleyebilirsiniz.
+    public function message(object $notifiable, NotificationChannel $channel): string
+    {
+        $setting = $this->setting($notifiable, $channel);
+
+        return str_replace(
+            ['{full_name}'],
+            [$notifiable->full_name],
+            $setting->template
+        );
+    }
+}

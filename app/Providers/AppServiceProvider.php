@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Core\DataTable\BaseDataTable;
 use App\Models\Category;
 use App\Models\Supplier;
 use App\Observers\CategoryObserver;
 use App\Observers\SupplierObserver;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Builder::macro('getSql', fn() => getSql($this));
     }
 
     /**
@@ -24,6 +26,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Admin') ? true : null;
+        });
+
+        Builder::macro('getSql', fn() => getSql($this));
+
+        Route::macro(
+            'customResource',
+            fn($name, $controller, $group = null, $includeResources = true) => customResources(
+                name: $name,
+                controller: $controller,
+                group: $group,
+                includeResources: $includeResources
+            )
+        );
+
+        $this->app->bind(BaseDataTable::class, fn() => $this->app->make(BaseDataTable::class));
 
 
         $this->registerObservers();
