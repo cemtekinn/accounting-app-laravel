@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Transaction;
+namespace App\Http\Requests\CRM\Transaction;
 
 use Illuminate\Foundation\Http\FormRequest;
 

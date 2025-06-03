@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Transaction;
+namespace App\Http\Requests\CRM\Category;
 
+use App\Enums\CategoryType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -22,10 +24,18 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required|exists:categories,id',
-            'type' => 'required|string',
-            'amount' => 'required',
+            'name' => 'required|string|max:255|unique:categories,name,NULL,id,user_id,' . $this->user()->id,
             'description' => 'nullable|string',
+            'status' => 'boolean',
+            'type' => ['required', 'string', Rule::in(CategoryType::cases())],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.unique' => "Bu isimde bir kategori zaten var.",
+            'type.in' => "Kategori tipi geçersiz."
         ];
     }
 }

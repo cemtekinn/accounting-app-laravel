@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\CRM\Transaction;
 
-use App\Enums\CategoryType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +22,10 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:categories,name,' . $this->route('category')->id . ',id,user_id,' . $this->user()->id,
+            'category_id' => 'required|exists:categories,id',
+            'type' => 'required|string',
+            'amount' => 'required',
             'description' => 'nullable|string',
-            'status' => 'boolean',
-            'type' => ['required', 'string', Rule::in(CategoryType::cases())],
         ];
     }
 }

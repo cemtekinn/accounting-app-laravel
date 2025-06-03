@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\BankAccount;
+namespace App\Http\Requests\CRM\BankAccount;
 
 use App\Enums\AccountType;
 use App\Enums\Currency;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

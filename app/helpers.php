@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Routing\RouteRegistrar;
-use App\Models\SystemSetting;
+use App\Models\Setting;
 use Illuminate\Support\Str;
 
 if (!function_exists('getSql')) {
@@ -16,7 +16,7 @@ if (!function_exists('setting')) {
     function setting($key)
     {
         try {
-            return SystemSetting::take($key)->value;
+            return Setting::get($key)->value;
         } catch (Exception $e) {
             return null;
         }

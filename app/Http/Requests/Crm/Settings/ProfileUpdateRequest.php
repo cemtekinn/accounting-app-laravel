@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Settings;
+namespace App\Http\Requests\CRM\Settings;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
