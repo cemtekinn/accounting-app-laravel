@@ -3,7 +3,6 @@
 use Illuminate\Routing\RouteRegistrar;
 use App\Models\Setting;
 use Illuminate\Support\Str;
-
 if (!function_exists('getSql')) {
     function getSql($builder): string
     {
