@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\CRM\Category;
+namespace App\Http\Requests\Crm\Category;
 
 use App\Enums\CategoryType;
 use Illuminate\Foundation\Http\FormRequest;

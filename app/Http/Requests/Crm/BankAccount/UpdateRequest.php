@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\CRM\BankAccount;
+namespace App\Http\Requests\Crm\BankAccount;
 
 use App\Enums\AccountType;
 use App\Enums\Currency;

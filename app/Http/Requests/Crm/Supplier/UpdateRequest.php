@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\CRM\Supplier;
+namespace App\Http\Requests\Crm\Supplier;
 
 use App\Enums\Currency;
 use Illuminate\Foundation\Http\FormRequest;

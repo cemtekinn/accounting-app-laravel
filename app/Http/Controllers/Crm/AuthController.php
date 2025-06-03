@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Crm;
 
 use App\Enums\UserLoginEvent;
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\CRM\Auth\LoginRequest;
-use App\Http\Requests\CRM\Auth\LoginRequest;
+use App\Http\Requests\Crm\Auth\LoginRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
