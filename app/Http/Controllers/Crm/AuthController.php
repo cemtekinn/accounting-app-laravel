@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Crm;
 
 use App\Enums\UserLoginEvent;
 use App\Http\Controllers\ApiController;

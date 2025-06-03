@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\CRM\Auth;
+namespace App\Http\Requests\Crm\Auth;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;

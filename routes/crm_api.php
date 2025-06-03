@@ -1,13 +1,16 @@
 <?php
 
-//Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
-//Route::post('login', [AuthController::class, 'login'])->name('login.post');
-
-
-use App\Http\Controllers\Crm\DataTableController;
+use App\Http\Controllers\Crm\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('dt/{table}')->group(function () {
-    Route::get('/', [DataTableController::class, 'index'])->name('datatable.index');
-    Route::get('config', [DataTableController::class, 'config'])->name('datatable.config');
+include __DIR__ . '/datatable.php';
+
+Route::post('login', [AuthController::class, 'login'])->name('login.post');
+
+Route::middleware(['auth:api'])->group(function () {
+
 });
+
+
+
+
