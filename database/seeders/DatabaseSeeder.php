@@ -18,13 +18,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-//        User::factory()->create([
-//            'name' => 'Cem Tekin',
-//            'email' => 'cemtekingss@gmail.com',
-//            'password' => Hash::make('123123'),
-//        ]);
-
-
+        User::factory()->create([
+            'name' => 'Cem Tekin',
+            'email' => 'cemtekingss@gmail.com',
+            'password' => Hash::make('123123'),
+        ]);
+        
         $this->call([
             UnitSeeder::class,
         ]);

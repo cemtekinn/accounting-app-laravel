@@ -18,10 +18,10 @@ Route::prefix('auth')->as('auth.')->group(function () {
 Route::middleware(['auth:api'])->group(function () {
     Route::customResource("categories", CategoryController::class);
     Route::customResource("products", ProductController::class);
+    Route::customResource("units", UnitController::class);
     Route::customResource("notes", NoteController::class);
     Route::customResource("contact-infos", ContactInfoController::class);
     Route::customResource("customers", CustomerController::class);
-    Route::customResource("units", UnitController::class);
 });
 
 

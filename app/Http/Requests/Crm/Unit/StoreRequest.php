@@ -32,8 +32,8 @@
         public function attributes(): array
         {
             return [
-                'name' => 'Birim Adı',
-                'short_name' => 'Kısa Ad',
+                'name' => 'Birim adı',
+                'short_name' => 'Kısa ad',
             ];
         }
     }

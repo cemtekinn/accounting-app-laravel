@@ -56,7 +56,10 @@ class CategoryController extends ApiController
     {
         $this->authorize('update', $category);
         $data = $request->validated();
-        $category->update($data);
+        $category->update([
+            ...$data,
+            'name' => Str::title($data['name'])
+        ]);
         return $this->success('Kategori başarıyla güncellendi', CategoryResource::make($category));
     }
 

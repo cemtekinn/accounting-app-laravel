@@ -28,7 +28,7 @@ class UpdateRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
-            'unit_id' => ['required', 'string', 'max:50'],
+            'unit_id' => ['required', 'exists:units,id'],
             'status' => ['required', Rule::in(ProductStatus::cases())],
             'expiry_date' => ['nullable', 'date'],
         ];

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -91,14 +92,5 @@ class User extends Authenticatable
     public function units(): HasMany
     {
         return $this->hasMany(Unit::class);
-    }
-
-    public function allUnits(): Collection
-    {
-        // Return all units associated with the user or those that are not assigned to any user
-        // user_id fields that are empty are the default ones.
-        return Unit::where('user_id', $this->id)
-            ->orWhereNull('user_id')
-            ->get();
     }
 }
