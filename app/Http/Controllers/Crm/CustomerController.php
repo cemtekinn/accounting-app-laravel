@@ -36,9 +36,6 @@ class CustomerController extends ApiController
         return $this->success('Müşteri bilgileri güncellendi.', CustomerResource::make($customer));
     }
 
-
-    //Todo: add policy
-
     /**
      * Remove the specified resource from storage.
      */

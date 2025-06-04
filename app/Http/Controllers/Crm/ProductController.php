@@ -8,7 +8,6 @@ use App\Http\Requests\Crm\Product\UpdateRequest;
 use App\Http\Resources\Crm\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProductController extends ApiController
 {
@@ -27,6 +26,7 @@ class ProductController extends ApiController
      */
     public function show(Product $product): ProductResource
     {
+        $this->authorize('view', $product);
         return ProductResource::make($product);
     }
 
@@ -35,6 +35,7 @@ class ProductController extends ApiController
      */
     public function update(UpdateRequest $request, Product $product): JsonResponse
     {
+        $this->authorize('update', $product);
         $data = $request->validated();
         $product->update($data);
         return $this->success('Ürün başarıyla güncellendi.', ProductResource::make($product));
@@ -45,6 +46,7 @@ class ProductController extends ApiController
      */
     public function destroy(Product $product): JsonResponse
     {
+        $this->authorize('delete', $product);
         $product->delete();
         return $this->success('Ürün başarıyla silindi.');
     }
