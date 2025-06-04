@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserLoginEvent;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,10 @@ return new class extends Migration
         Schema::create('user_login_activities', function (Blueprint $table) {
             $table->id();
 
-            // Add your columns here
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('event')->default(UserLoginEvent::login);
+            $table->string('ip');
+            $table->text('user_agent');
 
             $table->timestamps();
             $table->softDeletes();

@@ -17,13 +17,11 @@ class AuthController extends ApiController
 {
     public function login(LoginRequest $request): JsonResponse
     {
-        $data = $request->validated();
-
         $user = User::query()
-            ->when(isset($data['email']), fn($q) => $q->whereEmail($data['email']))
+            ->whereEmail($request->email)
             ->first();
 
-        if ($user && Hash::check($data['password'], $user->password)) {
+        if ($user && Hash::check($request->password, $user->password)) {
             try {
                 $user->loginActivities()->create([
                     'event' => UserLoginEvent::login,
@@ -40,11 +38,11 @@ class AuthController extends ApiController
                 'data' => $user,
                 'token' => $user->createToken(date('Y-m-d-H-i-s') . '--' . $user->id)->plainTextToken,
             ]);
-        } else {
-            throw ValidationException::withMessages([
-                'email' => [__('auth.failed')],
-            ]);
         }
+
+        throw ValidationException::withMessages([
+            'email' => [__('auth.failed')],
+        ]);
     }
 
     public function logout(Request $request): JsonResponse
