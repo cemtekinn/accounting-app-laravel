@@ -17,7 +17,8 @@ class ProductController extends ApiController
     public function store(StoreRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $product = Product::create($data);
+        $user = $request->user();
+        $product = $user->products()->create($data);
         return $this->success('Ürün başarıyla oluşturuldu.', ProductResource::make($product));
     }
 

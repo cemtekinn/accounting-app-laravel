@@ -67,13 +67,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
-    
-    public function units(): Collection
-    {
-        return Unit::where('user_id', $this->id)
-            ->orWhereNull('user_id')
-            ->get();
-    }
 
     public function transactions(): HasMany
     {
@@ -93,5 +86,19 @@ class User extends Authenticatable
     public function suppliers(): HasMany
     {
         return $this->hasMany(Supplier::class);
+    }
+
+    public function units(): HasMany
+    {
+        return $this->hasMany(Unit::class);
+    }
+
+    public function allUnits(): Collection
+    {
+        // Return all units associated with the user or those that are not assigned to any user
+        // user_id fields that are empty are the default ones.
+        return Unit::where('user_id', $this->id)
+            ->orWhereNull('user_id')
+            ->get();
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Crm\Product;
 
+use App\Enums\ProductStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -26,8 +28,8 @@ class UpdateRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
-            'unit' => ['required', 'string', 'max:50'],
-            'status' => ['required', 'string', 'max:50'],
+            'unit_id' => ['required', 'string', 'max:50'],
+            'status' => ['required', Rule::in(ProductStatus::cases())],
             'expiry_date' => ['nullable', 'date'],
         ];
     }
@@ -40,7 +42,7 @@ class UpdateRequest extends FormRequest
             'name.required' => 'Ürün adı alanı zorunludur.',
             'price.required' => 'Fiyat alanı zorunludur.',
             'stock.required' => 'Stok miktarı alanı zorunludur.',
-            'unit.required' => 'Birim alanı zorunludur.',
+            'unit_id.required' => 'Birim alanı zorunludur.',
             'status.required' => 'Ürün durumu alanı zorunludur.',
         ];
     }
@@ -55,7 +57,7 @@ class UpdateRequest extends FormRequest
             'description' => 'Açıklama',
             'price' => 'Fiyat',
             'stock' => 'Stok miktarı',
-            'unit' => 'Birim',
+            'unit_id' => 'Birim',
             'status' => 'Ürün durumu',
             'expiry_date' => 'Son kullanma tarihi',
         ];
