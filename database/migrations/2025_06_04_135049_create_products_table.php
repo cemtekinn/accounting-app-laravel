@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->integer('stock');
-            $table->string('unit');
+            $table->foreignId('unit_id')->constrained()->onDelete('cascade');
             $table->string('status');
             $table->date('expiry_date')->nullable();
             $table->timestamps();

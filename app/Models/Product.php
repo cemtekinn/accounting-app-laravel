@@ -22,7 +22,7 @@ class Product extends Model
         'description',
         'price',
         'stock',
-        'unit',
+        'unit_id',
         'status',
         'expiry_date',
     ];
@@ -32,14 +32,19 @@ class Product extends Model
         'price' => 'decimal:2',
     ];
 
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function scopeBarcode(string $barcode): Builder
+    public function scopeBarcode(Builder $query, string $barcode): Builder
     {
-        return static::where('barcode', $barcode)->first();
+        return $query->where('barcode', $barcode)->first();
     }
 
     public function scopeOutOfStock(Builder $query): Builder

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CustomerType;
+use App\Enums\CustomerStatus;
 use App\Traits\AutoLogsActivity;
 use App\Traits\HasContactInfos;
 use App\Traits\HasNotes;
@@ -20,7 +20,7 @@ class Customer extends Model
     ];
 
     protected $casts = [
-        'status' => CustomerType::class,
+        'status' => CustomerStatus::class,
     ];
 
     public function user(): belongsTo

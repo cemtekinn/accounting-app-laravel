@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum CustomerType: string
+enum CustomerStatus: string
 {
     case active = 'active';
     case passive = 'passive';

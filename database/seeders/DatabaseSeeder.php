@@ -22,5 +22,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'cemtekingss@gmail.com',
             'password' => Hash::make('123123'),
         ]);
+
+        $this->call([
+            UnitSeeder::class,
+        ]);
+        
     }
 }

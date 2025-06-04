@@ -15,7 +15,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'category_id' => ['required', 'exists:categories,id'],
-            'stock_code' => ['required', 'string', 'max:255'],
+            'stock_code' => ['nullable', 'string', 'max:255'],
             'barcode' => ['nullable', 'string', 'max:255'],
             'name' => [
                 'required',
@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
-            'unit' => ['required', 'string', 'max:50'],
+            'unit' => ['required', 'exists:units,id'],
             'status' => ['required', 'string', 'max:50'],
             'expiry_date' => ['nullable', 'date'],
         ];

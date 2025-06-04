@@ -11,7 +11,7 @@ enum ContactInfoParams: string
     case district = 'district';
     case postal_code = 'postal_code';
 
-    public function label(): string
+    public function description(): string
     {
         return match ($this) {
             self::email => 'E-posta',
