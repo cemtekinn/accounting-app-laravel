@@ -26,6 +26,12 @@ class Category extends Model
         'type' => CategoryType::class
     ];
 
+    public function scopeType(Builder $query, string $type): Builder
+    {
+        return $query->where('type', $type);
+    }
+
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -8,10 +8,24 @@ use App\Http\Requests\Crm\Category\UpdateRequest;
 use App\Http\Resources\Crm\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends ApiController
 {
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $per_page = $request->input('per_page', 10);
+
+        $categories = $request->user()
+            ->categories()
+            ->type($request->type)
+            ->paginate($per_page);
+
+        return CategoryResource::collection($categories);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -31,6 +45,7 @@ class CategoryController extends ApiController
      */
     public function show(Category $category): CategoryResource
     {
+        $this->authorize('view', $category);
         return CategoryResource::make($category);
     }
 
@@ -39,6 +54,7 @@ class CategoryController extends ApiController
      */
     public function update(UpdateRequest $request, Category $category): JsonResponse
     {
+        $this->authorize('update', $category);
         $data = $request->validated();
         $category->update($data);
         return $this->success('Kategori başarıyla güncellendi', CategoryResource::make($category));
@@ -49,6 +65,7 @@ class CategoryController extends ApiController
      */
     public function destroy(Category $category): JsonResponse
     {
+        $this->authorize('delete', $category);
         $category->delete();
         return $this->success('Kategori başarıyla silindi');
     }

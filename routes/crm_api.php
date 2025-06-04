@@ -9,7 +9,10 @@ use App\Http\Controllers\Crm\ProductController;
 
 include __DIR__ . '/datatable.php';
 
-Route::post('login', [AuthController::class, 'login'])->name('login.post');
+Route::prefix('auth')->as('auth.')->group(function () {
+    Route::post('login', [AuthController::class, 'login'])->name('login.post');
+});
+
 
 Route::middleware(['auth:api'])->group(function () {
     Route::customResource("categories", CategoryController::class);
