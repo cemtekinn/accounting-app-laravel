@@ -5,7 +5,7 @@ namespace App\Http\Resources\Crm;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CustomerResource extends JsonResource
+class ContactInfoResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,11 @@ class CustomerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-
+            'id' => $this->id,
+            'type' => $this->type,
+            'value' => $this->value,
+            'meta' => $this->meta,
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Core\DataTable\BaseDataTable;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Supplier;
 use App\Observers\CategoryObserver;
+use App\Observers\ProductObserver;
 use App\Observers\SupplierObserver;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Gate;
@@ -50,6 +52,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerObservers(): void
     {
+        Product::observe(ProductObserver::class);
+
         Category::observe(CategoryObserver::class);
         Supplier::observe(SupplierObserver::class);
     }

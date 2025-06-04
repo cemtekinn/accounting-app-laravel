@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\Crm\CustomerResource;
+use App\Models\Customer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CustomerController extends ApiController
@@ -18,7 +21,7 @@ class CustomerController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Customer $customer)
     {
         //
     }
@@ -26,16 +29,22 @@ class CustomerController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Customer $customer): JsonResponse
     {
-        //
+        $data = $request->validated();
+        $customer->update($data);
+        return $this->success('Müşteri bilgileri güncellendi.', CustomerResource::make($customer));
     }
+
+
+    //Todo: add policy
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer): JsonResponse
     {
-        //
+        $customer->delete();
+        return $this->success('Müşteri başarıyla silindi.');
     }
 }
