@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\CustomerStatus;
 use App\Traits\AutoLogsActivity;
-use App\Traits\HasContactInfos;
 use App\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +11,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {
-    use SoftDeletes, AutoLogsActivity, HasContactInfos, HasNotes;
+    use SoftDeletes, AutoLogsActivity, HasNotes;
 
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'phone',
+        'email',
+        'address',
+        'city',
+        'district',
         'status',
     ];
 
@@ -23,8 +28,18 @@ class Customer extends Model
         'status' => CustomerStatus::class,
     ];
 
+    protected $appends = [
+        'full_name',
+    ];
+
     public function user(): belongsTo
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getFullNameAttribute(): string
+    {
+        return trim("{$this->first_name} {$this->last_name}");
+    }
+
 }

@@ -21,7 +21,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::customResource("units", UnitController::class);
     Route::customResource("notes", NoteController::class);
     Route::customResource("contact-infos", ContactInfoController::class);
-    Route::customResource("customers", CustomerController::class);
+    Route::customResource("customers", CustomerController::class, ['{customer}' => ['add-note' => 'post']]);
 });
 
 

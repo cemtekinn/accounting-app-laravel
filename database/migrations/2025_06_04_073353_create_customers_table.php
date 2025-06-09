@@ -13,7 +13,13 @@ return new class extends Migration {
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('phone');
+            $table->string('email')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('district')->nullable();
             $table->string('status')->default(CustomerStatus::active);
         });
     }

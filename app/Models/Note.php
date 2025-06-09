@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Note extends Model
@@ -11,7 +12,7 @@ class Note extends Model
 
     protected $fillable = ['title', 'content'];
 
-    public function noteable()
+    public function noteable(): MorphTo
     {
         return $this->morphTo();
     }
