@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Http\Controllers\Crm;
+
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\Crm\Transaction\StoreRequest;
+use App\Http\Requests\Crm\Transaction\UpdateRequest;
+use App\Http\Resources\Crm\TransactionResource;
+use App\Models\Transaction;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class TransactionController extends ApiController
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        $user = $request->user();
+        $transaction = $user->transactions()->create($data);
+        return $this->success('Hesap hareketi başarıyla eklendi', TransactionResource::make($transaction));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Transaction $transaction): TransactionResource
+    {
+        $this->authorize('view', $transaction);
+        return TransactionResource::make($transaction);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateRequest $request, Transaction $transaction): JsonResponse
+    {
+        $this->authorize('update', $transaction);
+        $data = $request->validated();
+        $transaction->update($data);
+        return $this->success('Hesap hareketi başarıyla güncellendi', TransactionResource::make($transaction));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Transaction $transaction): JsonResponse
+    {
+        $this->authorize('delete', $transaction);
+        $transaction->delete();
+        $this->success('Hesap hareketi başarıyla silindi');
+    }
+}

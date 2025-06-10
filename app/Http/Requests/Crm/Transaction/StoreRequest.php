@@ -28,4 +28,36 @@ class StoreRequest extends FormRequest
             'description' => 'nullable|string',
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'category_id.required' => 'Kategori alanı zorunludur.',
+            'category_id.exists' => 'Seçilen kategori mevcut değil.',
+            'type.required' => 'Tür alanı zorunludur.',
+            'type.string' => 'Tür alanı metin olmalıdır.',
+            'amount.required' => 'Tutar alanı zorunludur.',
+            'description.string' => 'Açıklama alanı metin olmalıdır.',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'category_id' => 'Kategori',
+            'type' => 'Tür',
+            'amount' => 'Tutar',
+            'description' => 'Açıklama',
+        ];
+    }
 }

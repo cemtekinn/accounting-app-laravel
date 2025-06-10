@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\TransactionType;
 use App\Traits\AutoLogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
@@ -17,6 +17,10 @@ class Transaction extends Model
         'type',
         'amount',
         'description',
+    ];
+
+    protected $casts = [
+        'type' => TransactionType::class,
     ];
 
     public function user(): BelongsTo

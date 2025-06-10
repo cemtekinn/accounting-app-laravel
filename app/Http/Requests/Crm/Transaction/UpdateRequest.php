@@ -28,4 +28,36 @@ class UpdateRequest extends FormRequest
             'description' => 'sometimes|string',
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'category_id.integer' => 'Kategori ID bir tam sayı olmalıdır.',
+            'category_id.exists' => 'Seçilen kategori mevcut değil.',
+            'type.string' => 'Tür alanı metin olmalıdır.',
+            'amount.numeric' => 'Tutar sayısal bir değer olmalıdır.',
+            'amount.min' => 'Tutar en az 0 olmalıdır.',
+            'description.string' => 'Açıklama alanı metin olmalıdır.',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'category_id' => 'Kategori',
+            'type' => 'Tür',
+            'amount' => 'Tutar',
+            'description' => 'Açıklama',
+        ];
+    }
 }
