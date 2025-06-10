@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Crm\Supplier\StoreRequest;
+use App\Http\Requests\Crm\Supplier\UpdateRequest;
+use App\Http\Resources\Crm\NoteResource;
+use App\Http\Resources\Crm\SupplierContactResource;
 use App\Http\Resources\Crm\SupplierResource;
 use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\Crm\Note\SaveRequest as NoteSaveRequest;
+use App\Http\Requests\Crm\Supplier\Contact\SaveRequest as ContactSaveRequest;
 
 class SupplierController extends ApiController
 {
@@ -27,30 +31,51 @@ class SupplierController extends ApiController
         $data = $request->validated();
         $user = $request->user();
         $supplier = $user->suppliers()->create($data);
-        return $this->success('Tedarikçi başarıyla eklendi',SupplierResource::make($supplier));
+        return $this->success('Tedarikçi başarıyla eklendi', SupplierResource::make($supplier));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    public function show(Supplier $supplier): SupplierResource
     {
-        //
+        $this->authorize('view', $supplier);
+        return SupplierResource::make($supplier);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(UpdateRequest $request, Supplier $supplier): JsonResponse
     {
-        //
+        $this->authorize('update', $supplier);
+        $data = $request->validated();
+        $supplier->update($data);
+        return $this->success('Tedarikçi başarıyla güncellendi', SupplierResource::make($supplier));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Supplier $supplier): JsonResponse
     {
-        //
+        $this->authorize('delete', $supplier);
+        $supplier->delete();
+        return $this->success('Tedarikçi başarıyla silindi');
     }
+
+    public function addContact(ContactSaveRequest $request, Supplier $supplier): JsonResponse
+    {
+        $data = $request->validated();
+        $contact = $supplier->contacts()->create($data);
+        return $this->success('Tedarikçi iletişim bilgisi başarıyla eklendi', SupplierContactResource::make($contact));
+    }
+
+    public function addNote(NoteSaveRequest $request, Supplier $supplier): JsonResponse
+    {
+        $data = $request->validated();
+        $note = $supplier->addNote($data['content'], $data['title']);
+        return $this->success('Not başarıyla eklendi', NoteResource::make($note));
+    }
+
 }
