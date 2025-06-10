@@ -33,10 +33,7 @@ class CategoryController extends ApiController
     {
         $data = $request->validated();
         $user = $request->user();
-        $category = $user->categories()->create([
-            ...$data,
-            'name' => Str::title($data['name'])
-        ]);
+        $category = $user->categories()->create($data);
         return $this->success('Kategori başarıyla eklendi', CategoryResource::make($category));
     }
 
@@ -56,10 +53,7 @@ class CategoryController extends ApiController
     {
         $this->authorize('update', $category);
         $data = $request->validated();
-        $category->update([
-            ...$data,
-            'name' => Str::title($data['name'])
-        ]);
+        $category->update($data);
         return $this->success('Kategori başarıyla güncellendi', CategoryResource::make($category));
     }
 

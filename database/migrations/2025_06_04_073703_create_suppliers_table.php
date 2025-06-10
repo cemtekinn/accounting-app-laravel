@@ -32,8 +32,8 @@ return new class extends Migration {
             $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('phone');
             $table->string('email')->nullable();
-            $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->string('position')->nullable();
             $table->timestamps();

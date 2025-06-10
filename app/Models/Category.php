@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CategoryType;
 use App\Traits\AutoLogsActivity;
+use App\Traits\HasTitleCasedAttributes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use SoftDeletes, AutoLogsActivity;
+    use SoftDeletes, AutoLogsActivity, HasTitleCasedAttributes;
 
     protected $fillable = [
         'name',
@@ -26,11 +27,12 @@ class Category extends Model
         'type' => CategoryType::class
     ];
 
+    protected array $titleCasedAttributes = ['name'];
+
     public function scopeType(Builder $query, string $type): Builder
     {
         return $query->where('type', $type);
     }
-
 
     public function user(): BelongsTo
     {

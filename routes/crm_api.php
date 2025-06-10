@@ -6,6 +6,7 @@ use App\Http\Controllers\Crm\ContactInfoController;
 use App\Http\Controllers\Crm\CustomerController;
 use App\Http\Controllers\Crm\NoteController;
 use App\Http\Controllers\Crm\ProductController;
+use App\Http\Controllers\Crm\SupplierController;
 use App\Http\Controllers\Crm\UnitController;
 
 include __DIR__ . '/datatable.php';
@@ -22,7 +23,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::customResource("notes", NoteController::class);
     Route::customResource("contact-infos", ContactInfoController::class);
     Route::customResource("customers", CustomerController::class, ['{customer}' => ['add-note' => 'post']]);
-//    Route::customResource("suppliers", SupplierController::class);
+    Route::customResource("suppliers", SupplierController::class);
 });
 
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ProductStatus;
+use App\Traits\HasTitleCasedAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Carbon\Carbon;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasTitleCasedAttributes;
 
     protected $fillable = [
         'category_id',
@@ -31,6 +32,8 @@ class Product extends Model
         'expiry_date' => 'date',
         'price' => 'decimal:2',
     ];
+
+    protected array $titleCasedAttributes = ['name'];
 
     public function unit(): BelongsTo
     {

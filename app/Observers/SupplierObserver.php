@@ -10,4 +10,5 @@ class SupplierObserver
     {
         $supplier->contacts()->delete();
     }
+
 }

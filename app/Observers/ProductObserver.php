@@ -9,7 +9,6 @@ class ProductObserver
 {
     public function creating(Product $product): void
     {
-        $product->name = Str::title($product->name);
         $product->stock_code = $this->stockCode($product);
     }
 
