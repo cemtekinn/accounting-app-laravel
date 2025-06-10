@@ -34,7 +34,8 @@ class CustomerController extends ApiController
 
     public function addNote(Customer $customer, SaveRequest $request): JsonResponse
     {
-        $note = $customer->addNote($request->content, $request->title);
+        $data = $request->validated();
+        $note = $customer->addNote($data['content'], $data['title']);
         return $this->success('Not başarıyla eklendi', NoteResource::make($note));
     }
 

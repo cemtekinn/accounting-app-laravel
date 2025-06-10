@@ -2,18 +2,15 @@
 
 namespace App\Models;
 
-use App\Enums\Currency;
-use App\Traits\HasContactInfos;
 use App\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
-    use SoftDeletes, HasContactInfos, HasNotes;
+    use SoftDeletes, HasNotes;
 
     protected $fillable = [
         'name',
@@ -33,4 +30,10 @@ class Supplier extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(SupplierContact::class);
+    }
+
 }
