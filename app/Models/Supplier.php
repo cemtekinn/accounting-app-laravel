@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Currency;
+use App\Enums\SupplierStatus;
 use App\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,10 +22,12 @@ class Supplier extends Model
         'iban',
         'bank_name',
         'status',
+        'currency',
     ];
 
     protected $casts = [
-        'status' => 'boolean',
+        'status' => SupplierStatus::class,
+        'currency' => Currency::class,
     ];
 
     public function user(): BelongsTo

@@ -1,11 +1,12 @@
 <?php
 
+use App\Enums\Currency;
+use App\Enums\SupplierStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,14 +19,10 @@ return new class extends Migration
             $table->string('company_name')->nullable();
             $table->string('tax_number')->nullable();
             $table->string('tax_office')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->text('address')->nullable();
             $table->string('iban')->nullable();
             $table->string('bank_name')->nullable();
-            $table->string('currency')->default('TRY');
-            $table->boolean('status')->default(true);
-            $table->text('notes')->nullable();
+            $table->string('currency')->default(Currency::TRY);
+            $table->string('status')->default(SupplierStatus::active);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,9 +30,11 @@ return new class extends Migration
         Schema::create('supplier_contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->text('address')->nullable();
             $table->string('position')->nullable();
             $table->timestamps();
             $table->softDeletes();

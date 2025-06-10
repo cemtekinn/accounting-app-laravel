@@ -13,15 +13,26 @@ class SupplierContact extends Model
     use SoftDeletes, AutoLogsActivity, DateRange;
 
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'phone',
+        'address',
         'position',
+    ];
+
+    protected $appends = [
+        'full_name',
     ];
 
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return trim("{$this->first_name} {$this->last_name}");
     }
 
 }
