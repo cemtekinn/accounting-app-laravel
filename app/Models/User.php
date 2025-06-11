@@ -89,6 +89,11 @@ class User extends Authenticatable
         return $this->hasMany(Supplier::class);
     }
 
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class);
+    }
+
     public function units(): HasMany
     {
         return $this->hasMany(Unit::class);
