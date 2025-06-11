@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Crm;
 
-use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
