@@ -9,15 +9,24 @@ use App\Http\Resources\Crm\TransactionResource;
 use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TransactionController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): AnonymousResourceCollection
     {
-        //
+        $per_page = $request->input('per_page', 10);
+
+        $modelQuery = $request->user()->transactions();
+        $transactions = QueryBuilder::for($modelQuery)
+            ->allowedFilters('type', 'category_id')
+            ->paginate($per_page);
+
+        return TransactionResource::collection($transactions);
     }
 
     /**

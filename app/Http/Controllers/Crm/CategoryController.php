@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends ApiController
 {
@@ -18,9 +19,9 @@ class CategoryController extends ApiController
     {
         $per_page = $request->input('per_page', 10);
 
-        $categories = $request->user()
-            ->categories()
-            ->type($request->type)
+        $modelQuery = $request->user()->categories();
+        $categories = QueryBuilder::for($modelQuery)
+            ->allowedFilters('type')
             ->paginate($per_page);
 
         return CategoryResource::collection($categories);

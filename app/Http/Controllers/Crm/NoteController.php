@@ -14,9 +14,10 @@ class NoteController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Note $note): NoteResource
     {
-        //
+        $this->authorize('view', $note);
+        return NoteResource::make($note);
     }
 
     /**
@@ -24,6 +25,7 @@ class NoteController extends ApiController
      */
     public function update(Request $request, Note $note): JsonResponse
     {
+        $this->authorize('update', $note);
         $data = $request->validated();
         $note->update($data);
         return $this->success('Not başarıyla güncellendi.', NoteResource::make($note));
@@ -34,6 +36,7 @@ class NoteController extends ApiController
      */
     public function destroy(Note $note): JsonResponse
     {
+        $this->authorize('delete', $note);
         $note->delete();
         return $this->success('Not başarıyla silindi.');
     }

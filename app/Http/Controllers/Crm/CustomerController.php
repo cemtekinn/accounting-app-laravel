@@ -4,15 +4,30 @@ namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Crm\Customer\StoreRequest;
+use App\Http\Requests\Crm\Customer\UpdateRequest;
 use App\Http\Requests\Crm\Note\SaveRequest;
 use App\Http\Resources\Crm\CustomerResource;
 use App\Http\Resources\Crm\NoteResource;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CustomerController extends ApiController
 {
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $modelQuery = $request->user()->customers();
+        $per_page = $request->input('per_page', 10);
+
+        $customers = QueryBuilder::for($modelQuery)
+            ->allowedFilters('status')
+            ->paginate($per_page);
+
+        return CustomerResource::collection($customers);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -29,21 +44,16 @@ class CustomerController extends ApiController
      */
     public function show(Customer $customer): CustomerResource
     {
+        $this->authorize('view', $customer);
         return CustomerResource::make($customer);
-    }
-
-    public function addNote(Customer $customer, SaveRequest $request): JsonResponse
-    {
-        $data = $request->validated();
-        $note = $customer->addNote($data['content'], $data['title']);
-        return $this->success('Not başarıyla eklendi', NoteResource::make($note));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer): JsonResponse
+    public function update(UpdateRequest $request, Customer $customer): JsonResponse
     {
+        $this->authorize('update', $customer);
         $data = $request->validated();
         $customer->update($data);
         return $this->success('Müşteri bilgileri güncellendi.', CustomerResource::make($customer));
@@ -54,7 +64,22 @@ class CustomerController extends ApiController
      */
     public function destroy(Customer $customer): JsonResponse
     {
+        $this->authorize('delete', $customer);
         $customer->delete();
         return $this->success('Müşteri başarıyla silindi.');
+    }
+
+    public function addNote(Customer $customer, SaveRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        $note = $customer->addNote($data['content'], $data['title']);
+        return $this->success('Not başarıyla eklendi', NoteResource::make($note));
+    }
+
+    public function notes(Customer $customer, Request $request): AnonymousResourceCollection
+    {
+        $per_page = $request->input('per_page', 10);
+        $notes = $customer->notes()->paginate($per_page);
+        return NoteResource::collection($notes);
     }
 }

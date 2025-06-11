@@ -5,12 +5,41 @@ namespace App\Http\Controllers\Crm;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Crm\Product\StoreRequest;
 use App\Http\Requests\Crm\Product\UpdateRequest;
+use App\Http\Resources\Crm\CustomerResource;
 use App\Http\Resources\Crm\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends ApiController
 {
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $modelQuery = $request->user()->products();
+        $per_page = $request->input('per_page', 10);
+
+        $products = QueryBuilder::for($modelQuery)
+            ->allowedFilters([
+                'status',
+                'category_id',
+                'stock_code',
+                'barcode',
+                'name',
+                'unit_id',
+            ])
+            ->allowedSorts([
+                'price',
+                'expiry_date',
+                'stock',
+                'name',
+            ])
+            ->paginate($per_page);
+
+        return ProductResource::collection($products);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -12,15 +12,25 @@ use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Crm\Note\SaveRequest as NoteSaveRequest;
 use App\Http\Requests\Crm\Supplier\Contact\SaveRequest as ContactSaveRequest;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SupplierController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): AnonymousResourceCollection
     {
-        //
+        $per_page = $request->input('per_page', 10);
+
+        $modelQuery = $request->user()->suppliers();
+        $suppliers = QueryBuilder::for($modelQuery)
+            ->allowedFilters('name', 'status', 'company_name', 'currency')
+            ->paginate($per_page);
+
+        return SupplierResource::collection($suppliers);
     }
 
     /**
@@ -76,6 +86,13 @@ class SupplierController extends ApiController
         $data = $request->validated();
         $note = $supplier->addNote($data['content'], $data['title']);
         return $this->success('Not başarıyla eklendi', NoteResource::make($note));
+    }
+
+    public function notes(Supplier $supplier, Request $request): AnonymousResourceCollection
+    {
+        $per_page = $request->input('per_page', 10);
+        $notes = $supplier->notes()->paginate($per_page);
+        return NoteResource::collection($notes);
     }
 
 }
