@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SaleStatus;
 use App\Traits\AutoLogsActivity;
 use App\Traits\DateRange;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,10 @@ class Sale extends Model
     protected $fillable = [
         'total',
         'status',
-        'note',
+    ];
+
+    protected $casts = [
+        'status' => SaleStatus::class,
     ];
 
     public function user(): BelongsTo

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('total', 10, 2)->default(0);
+            $table->decimal('total_discount', 10, 2)->default(0);
             $table->string('status')->default(SaleStatus::pending);
             $table->timestamps();
             $table->softDeletes();
@@ -30,8 +31,6 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->decimal('discount_amount', 10, 2)->default(0);
             $table->decimal('tax_amount', 10, 2)->default(0);
-            $table->timestamps();
-
             $table->index(['sale_id', 'product_id']);
         });
 
