@@ -18,7 +18,7 @@ class TransactionResource extends JsonResource
             'type' => $this->type,
             'amount' => $this->amount,
             'description' => $this->description,
-            'category' => $this->category,
+            'category' => CategoryResource::make($this->whenLoaded('category')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }

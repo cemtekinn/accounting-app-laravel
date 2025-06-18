@@ -10,7 +10,6 @@ use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Str;
 
 class UnitController extends ApiController
 {
@@ -36,12 +35,7 @@ class UnitController extends ApiController
     {
         $data = $request->validated();
         $user = $request->user();
-
-        $unit = $user->units()->create([
-            ...$data,
-            'name' => Str::title($data['name'])
-        ]);
-
+        $unit = $user->units()->create($data);
         return $this->success('Birim başarıyla eklendi', UnitResource::make($unit));
     }
 
@@ -62,12 +56,7 @@ class UnitController extends ApiController
         $this->authorize('update', $unit);
 
         $data = $request->validated();
-
-        $unit->update([
-            ...$data,
-            'name' => Str::title($data['name'])
-        ]);
-
+        $unit->update($data);
         return $this->success('Birim başarıyla güncellendi', UnitResource::make($unit));
     }
 

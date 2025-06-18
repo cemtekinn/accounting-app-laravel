@@ -6,6 +6,7 @@ use App\Http\Controllers\Crm\CustomerController;
 use App\Http\Controllers\Crm\NoteController;
 use App\Http\Controllers\Crm\ProductController;
 use App\Http\Controllers\Crm\SupplierController;
+use App\Http\Controllers\Crm\TransactionController;
 use App\Http\Controllers\Crm\UnitController;
 
 include __DIR__ . '/datatable.php';
@@ -20,6 +21,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::customResource("products", ProductController::class);
     Route::customResource("units", UnitController::class);
     Route::customResource("notes", NoteController::class);
+    Route::customResource("transactions", TransactionController::class);
 
     Route::customResource("customers", CustomerController::class, [
         '{customer}' => [

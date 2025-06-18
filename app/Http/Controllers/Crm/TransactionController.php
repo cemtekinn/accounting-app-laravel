@@ -46,6 +46,7 @@ class TransactionController extends ApiController
     public function show(Transaction $transaction): TransactionResource
     {
         $this->authorize('view', $transaction);
+        $transaction->load('category');
         return TransactionResource::make($transaction);
     }
 
