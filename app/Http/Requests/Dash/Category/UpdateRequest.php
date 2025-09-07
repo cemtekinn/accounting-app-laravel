@@ -15,7 +15,7 @@ class UpdateRequest extends FormRequest
     {
         return true;
     }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,8 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name,' . $this->route('category')->id . ',id,user_id,' . $this->user()->id,
             'description' => 'nullable|string',
-            'status' => 'boolean',
-            'type' => ['required', 'string', Rule::in(CategoryType::cases())],
+//            'type' => ['required', 'string', Rule::in(CategoryType::cases())],
         ];
     }
 }
