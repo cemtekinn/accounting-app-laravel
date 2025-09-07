@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends ApiController
@@ -20,7 +21,11 @@ class CategoryController extends ApiController
 
         $modelQuery = $request->user()->categories();
         $categories = QueryBuilder::for($modelQuery)
-            ->allowedFilters('type')
+            ->allowedFilters([
+                AllowedFilter::partial('name'),
+                AllowedFilter::partial('description'),
+                AllowedFilter::exact('type'),
+            ])
             ->paginate($per_page);
 
         return CategoryResource::collection($categories);
