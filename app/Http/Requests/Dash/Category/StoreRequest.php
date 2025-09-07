@@ -26,7 +26,6 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name,NULL,id,user_id,' . $this->user()->id,
             'description' => 'nullable|string',
-            'status' => 'boolean',
             'type' => ['required', 'string', Rule::in(CategoryType::cases())],
         ];
     }

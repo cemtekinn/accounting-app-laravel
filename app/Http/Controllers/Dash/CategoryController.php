@@ -15,21 +15,28 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends ApiController
 {
+
     public function index(Request $request): AnonymousResourceCollection
     {
         $per_page = $request->input('per_page', 10);
 
         $modelQuery = $request->user()->categories();
+
         $categories = QueryBuilder::for($modelQuery)
             ->allowedFilters([
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('description'),
                 AllowedFilter::exact('type'),
             ])
+            ->allowedSorts([
+                'created_at',
+            ])
+            ->defaultSort('-created_at')
             ->paginate($per_page);
 
         return CategoryResource::collection($categories);
     }
+
 
     /**
      * Store a newly created resource in storage.
